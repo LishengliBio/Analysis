@@ -1,5 +1,5 @@
 
-### PCA
+### PCA in R
 library(ggfortify)
 setwd('/extraspace/sli/collaboration/ChenZhiao_Rat/data/RNA_sequencing/stringtie')
 rat_expr <- read.table('Rat_stringtie_tpm_profile.txt',header=T,row.names=1,sep='\t')
@@ -9,5 +9,4 @@ tpm_pca <- prcomp(t(rat_lg2expr),center = F,scale. = F)
 pdf('/extraspace/sli/collaboration/ChenZhiao_Rat/Figures/Rat_samples_pca.pdf',height=5,width=5)
 autoplot(tpm_pca,colour=colors,label=TRUE)
 dev.off()
-
 
