@@ -1,0 +1,17 @@
+
+### DESeq2
+library(DESeq2)
+setwd("C:/Users/sli14/projects/4.Rat_model_liver_cancer/data/rsem")
+count_genes <- read.table("Rat_rsem_gene_count_profile_inter.txt",header=T,row.names=1,as.is=T)
+### from IN to FC stage
+#count_IN_FC <- count_genes[,c('IN1','IN2','IN3','FC1','FC2','FC3')]
+pdata_IN_FC <- read.table("pdata_IN_FC.txt",header=T,row.names=1,as.is=T)
+group_IN_FC <- count_genes[,rownames(pdata_IN_FC)]
+matrix_IN_FC <- as.matrix(group_IN_FC)
+dds <- DESeqDataSetFromMatrix(countData = matrix_IN_FC,colData = pdata_IN_FC,design = ~class)
+featureData <- data.frame(gene=rownames(matrix_IN_FC))
+mcols(dds) <- DataFrame(mcols(dds),featureData)
+dds <- DESeq(dds)
+res <- results(dds)
+setwd("C:/Users/Steve/Documents/work/UThealth/Rat_model/results/diff")
+write.table(res,file="IN_FC_count_deseq2.txt",quote=F,sep="\t")
